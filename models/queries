@@ -1,0 +1,45 @@
+convert query results to JSON
+
+1:1
+
+(async () => {
+  const tasks = await Task.findAll({ include: User });
+  const tasksJSON = tasks.map((task) => task.toJSON());
+  console.log(tasksJSON);
+})();
+
+
+
+1:M
+
+(async () => {
+  const user = await User.bulkCreate([
+    { firstName: "Jack Sparrow", lastName: "lastname", ManagerId: 1 },
+    { firstName: "Davy Jones", lastName: "lastname", ManagerId: 1 },
+    { firstName: "Davy Jones", lastName: "lastname", ManagerId: 2 },
+    { firstName: "Davy Jones", lastName: "lastname", ManagerId: 3 },
+  ]);
+  const users = await User.findAll();
+  const usersJSON = users.map((user) => user.toJSON());
+  console.log(usersJSON);
+})();
+
+(async () => {
+  await User.bulkCreate([
+    { firstName: "Jack Sparrow", lastName: "lastname", ManagerId: 1 },
+    { firstName: "Davy Jones", lastName: "lastname", ManagerId: 1 },
+    { firstName: "Davy Jones", lastName: "lastname", ManagerId: 2 },
+    { firstName: "Davy Jones", lastName: "lastname", ManagerId: 3 },
+  ]);
+  const users = await User.findAll({
+    where: {
+      ManagerId: 1,
+    },
+    include: Manager,
+  });
+  const usersJSON = users.map((user) => user.toJSON());
+  console.log(usersJSON);
+})();
+d
+
+M:M

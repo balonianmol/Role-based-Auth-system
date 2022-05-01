@@ -1,0 +1,10 @@
+const router = require("express").Router();
+const managercrud = require("../controllers/managercontrol");
+const auth = require("../middleware/managerauth");
+router.post("/login/manager", managercrud.login);
+router.get("/manager/getuser", auth, managercrud.checkUsers);
+router.post("/manager/createtask", auth, managercrud.createtask);
+router.post("/manager/updatetask", auth, managercrud.updateTask);
+router.delete("/manager/delete", auth, managercrud.deletetask);
+router.post("/manager/assigntask", auth, managercrud.assigntask);
+module.exports = router;
